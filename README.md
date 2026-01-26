@@ -1,1 +1,0 @@
-# Lap_trinh_tren_thiet_bi_di_dong
