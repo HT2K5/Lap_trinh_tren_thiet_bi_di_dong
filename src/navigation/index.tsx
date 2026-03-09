@@ -13,6 +13,7 @@ import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
 import { Updates } from './screens/Updates';
 import { NotFound } from './screens/NotFound';
+import { ScanNew } from './screens/ScanNew';
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
@@ -56,6 +57,12 @@ const RootStack = createNativeStackNavigator({
       screen: HomeTabs,
       options: {
         title: 'Home',
+        headerShown: false,
+      },
+    },
+    ScanNew: {
+      screen: ScanNew,
+      options: {
         headerShown: false,
       },
     },
