@@ -7,8 +7,8 @@ import {
   ScrollView,
   Image,
   Text,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export function Payment() {
   const navigation = useNavigation();
@@ -21,7 +21,7 @@ export function Payment() {
       >
 
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backBtn}>
+          <TouchableOpacity style={styles.backBtn} onPress={() => navigation.navigate('HomeTabs')}>
             <Text style={styles.backArrow}>‹</Text>
           </TouchableOpacity>
         </View>
