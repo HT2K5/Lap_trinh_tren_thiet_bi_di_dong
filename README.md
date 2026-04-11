@@ -7,15 +7,16 @@ cd Nectar_App
 npm install
 npx expo start
 Quét QR bằng Expo Go trên điện thoại
+
 ## 📸 Ảnh demo
-![Splash](./screenshots/23810310175_01_splash)
-![Onboarding](./screenshots/23810310175_02_onbording)
-![SignIn](./screenshots/23810310175_03_Singin)
-![PhoneNumber](./screenshots/23810310175_04_Number)
-![Verification](./screenshots/23810310175_05_Vertification)
-![SelectLocation](./screenshots/23810310175_06_selectlocation)
-![Login](./screenshots/23810310175_07_login)
-![SignUp](./screenshots/23810310175_08_signup)
+![Splash](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/splash.png)
+![Onboarding](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/onboarding.png)
+![SignIn](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/signin.png)
+![PhoneNumber](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/phone.png)
+![Verification](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/verification.png)
+![Location](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/location.png)
+![Login](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/login.png)
+![SignUp](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/signup.png)
 ## 🎥 Video demo
 
 
