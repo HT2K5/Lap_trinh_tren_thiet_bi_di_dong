@@ -10,13 +10,13 @@ Quét QR bằng Expo Go trên điện thoại
 
 ## 📸 Ảnh demo
 ![Splash](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_01_splash.jpg)
-![Onboarding](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/onboarding.jpg)
-![SignIn](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/signin.jpg)
-![PhoneNumber](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/phone.jpg)
-![Verification](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/verification.jpg)
-![Location](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/location.jpg)
-![Login](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/login.jpg)
-![SignUp](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/signup.jpg)
+![Onboarding](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_02_onbording.jpg)
+![SignIn](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_03_Singin.jpg)
+![PhoneNumber](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_04_Number.jpg)
+![Verification](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_05_Vertification.jpg)
+![Location](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_06_selectlocation.jpg)
+![Login](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_07_login.jpg)
+![SignUp](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_08_signup.jpg)
 ## 🎥 Video demo
 
 
