@@ -9,7 +9,7 @@ npx expo start
 Quét QR bằng Expo Go trên điện thoại
 
 ## 📸 Ảnh demo
-![Splash](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/splash.png)
+![Splash](https://github.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/blob/Nectar_App/screenshots/23810310175_01_splash.jpg)
 ![Onboarding](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/onboarding.png)
 ![SignIn](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/signin.png)
 ![PhoneNumber](https://raw.githubusercontent.com/HT2K5/Lap_trinh_tren_thiet_bi_di_dong/Nectar_App/screenshots/phone.png)
