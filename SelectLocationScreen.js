@@ -129,7 +129,7 @@ export default function SelectLocationScreen({ navigation }) {
 
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Main")}
         >
           <Text style={styles.submitText}>Submit</Text>
         </TouchableOpacity>

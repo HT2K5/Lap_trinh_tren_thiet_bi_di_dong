@@ -8,7 +8,7 @@ const STUDENT_ID = "23810310175";
 
 export default function SplashScreen({ navigation }) {
   useEffect(() => {
-    const timer = setTimeout(() => navigation.replace("Onboarding"), 6000);
+    const timer = setTimeout(() => navigation.replace("Onboarding"), 600);
     return () => clearTimeout(timer);
   }, []);
 

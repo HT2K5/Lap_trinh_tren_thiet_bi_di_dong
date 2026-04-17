@@ -4,13 +4,13 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   TextInput,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import { COLORS } from "./theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function VerificationScreen({ navigation, route }) {
   const [code, setCode] = useState(["", "", "", ""]);

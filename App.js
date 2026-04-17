@@ -1,4 +1,4 @@
-import React from "react";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -10,6 +10,9 @@ import VerificationScreen from "./VerificationScreen";
 import SelectLocationScreen from "./SelectLocationScreen";
 import LoginScreen from "./LoginScreen";
 import SignUpScreen from "./SignUpScreen";
+import MainTabs from "./MainTabs";
+import ProductDetailScreen from "./ProductDetailScreen";
+import BeveragesScreen from "./BeveragesScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +31,9 @@ export default function App() {
         <Stack.Screen name="SelectLocation" component={SelectLocationScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
+        <Stack.Screen name="Main" component={MainTabs} />
+        <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+        <Stack.Screen name="Beverages" component={BeveragesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
