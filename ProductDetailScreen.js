@@ -10,16 +10,47 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useCart } from "./CartContext";
 
 export default function ProductDetailScreen({ navigation, route }) {
-  const item = route?.params?.item || {
-    name: "Naturel Red Apple",
-    sub: "1kg, Price",
-    price: "$4.99",
-    image: require("./assets/apple.png"), // 📌 thay tên file ảnh
-  };
+  const rawItem = route?.params?.item;
+
+  const item = rawItem
+    ? {
+        ...rawItem,
+        price: parseFloat(rawItem.price) || 0,
+      }
+    : {
+        id: 0,
+        name: "Naturel Red Apple",
+        unit: "1kg",
+        price: 4.99,
+        image: require("./assets/apple.png"),
+      };
+
   const [qty, setQty] = useState(1);
-  const [liked, setLiked] = useState(false);
+  const { addToCart, addToFavs, removeFromFavs, favs } = useCart();
+  const isFav = favs.some(f => f.id === item.id);
+
+  const toggleFav = () => {
+    if (isFav) {
+      removeFromFavs(item.id);
+    } else {
+      addToFavs(item);
+    }
+  };
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: item.id,
+      name: item.name,
+      unit: item.unit,
+      image: item.image,
+      price: parseFloat(item.price) || 0,
+      qty: qty,
+    });
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,7 +71,7 @@ export default function ProductDetailScreen({ navigation, route }) {
 
       <ScrollView showsVerticalScrollIndicator={false}>
 
-        {/* Product image - 📌 ảnh sản phẩm thật */}
+        {/* Product image */}
         <View style={styles.imgWrap}>
           <Image
             source={item.image}
@@ -49,7 +80,7 @@ export default function ProductDetailScreen({ navigation, route }) {
           />
         </View>
 
-        {/* Dots indicator */}
+        {/* Dots */}
         <View style={styles.dotsRow}>
           {[0, 1, 2].map(i => (
             <View key={i} style={[styles.dot, i === 0 && styles.dotActive]} />
@@ -62,13 +93,13 @@ export default function ProductDetailScreen({ navigation, route }) {
           <View style={styles.nameRow}>
             <View style={{ flex: 1 }}>
               <Text style={styles.productName}>{item.name}</Text>
-              <Text style={styles.productSub}>{item.sub}</Text>
+              <Text style={styles.productSub}>{item.unit}, Price</Text>
             </View>
-            <TouchableOpacity onPress={() => setLiked(!liked)}>
+            <TouchableOpacity onPress={toggleFav}>
               <Ionicons
-                name={liked ? "heart" : "heart-outline"}
+                name={isFav ? "heart" : "heart-outline"}
                 size={28}
-                color={liked ? "#F4613A" : "#181725"}
+                color={isFav ? "#F4613A" : "#181725"}
               />
             </TouchableOpacity>
           </View>
@@ -88,7 +119,9 @@ export default function ProductDetailScreen({ navigation, route }) {
             >
               <Ionicons name="add" size={20} color="#53B175" />
             </TouchableOpacity>
-            <Text style={styles.price}>{item.price}</Text>
+            <Text style={styles.price}>
+              ${(item.price * qty).toFixed(2)}
+            </Text>
           </View>
 
           {/* Product Detail */}
@@ -97,9 +130,9 @@ export default function ProductDetailScreen({ navigation, route }) {
             <Ionicons name="chevron-down" size={20} color="#181725" />
           </TouchableOpacity>
           <Text style={styles.detailText}>
-            Apples Are Nutritious. Apples May Be Good For Weight Loss.
-            Apples May Be Good For Your Heart. As Part Of A Healthful
-            And Varied Diet.
+            This product is nutritious and good for your health.
+            It is fresh and carefully selected to bring you
+            the best quality.
           </Text>
 
           {/* Nutritions */}
@@ -129,7 +162,7 @@ export default function ProductDetailScreen({ navigation, route }) {
 
       {/* Add to basket */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity style={styles.addBtn} onPress={handleAddToCart}>
           <Text style={styles.addText}>Add To Basket</Text>
         </TouchableOpacity>
       </View>
@@ -161,10 +194,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     borderRadius: 18,
   },
-  productImg: {
-    width: "80%",
-    height: "80%",
-  },
+  productImg: { width: "80%", height: "80%" },
   dotsRow: {
     flexDirection: "row",
     justifyContent: "center",
@@ -178,10 +208,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: "#E2E2E2",
   },
-  dotActive: {
-    backgroundColor: "#53B175",
-    width: 20,
-  },
+  dotActive: { backgroundColor: "#53B175", width: 20 },
   content: { paddingHorizontal: 20 },
   nameRow: {
     flexDirection: "row",

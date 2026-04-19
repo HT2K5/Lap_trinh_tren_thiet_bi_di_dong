@@ -5,61 +5,76 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  SafeAreaView,
   StatusBar,
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView as SAV } from "react-native-safe-area-context";
+import { useCart } from "./CartContext";
 
-// 📌 Thay tên file ảnh đúng với ảnh bạn có trong assets
 const BEVERAGES = [
   {
-    id: 1,
+    id: 13,
     name: "Diet Coke",
-    sub: "355ml, Price",
-    price: "$1.99",
+    unit: "355ml",
+    price: 1.99,
+    category: "Beverages",
+    brand: "Coca Cola",
     image: require("./assets/diet_coke.png"),
   },
   {
-    id: 2,
+    id: 14,
     name: "Sprite Can",
-    sub: "325ml, Price",
-    price: "$1.50",
+    unit: "325ml",
+    price: 1.50,
+    category: "Beverages",
+    brand: "Individual Collection",
     image: require("./assets/sprite.png"),
   },
   {
-    id: 3,
+    id: 15,
     name: "Apple & Grape\nJuice",
-    sub: "2l, Price",
-    price: "$15.99",
+    unit: "2l",
+    price: 15.99,
+    category: "Beverages",
+    brand: "Individual Collection",
     image: require("./assets/apple_juice.png"),
   },
   {
-    id: 4,
-    name: "Orenge Juice",
-    sub: "2l, Price",
-    price: "$15.99",
+    id: 16,
+    name: "Orange Juice",
+    unit: "2l",
+    price: 15.99,
+    category: "Beverages",
+    brand: "Individual Collection",
     image: require("./assets/orange_juice.png"),
   },
   {
-    id: 5,
+    id: 17,
     name: "Coca Cola Can",
-    sub: "325ml, Price",
-    price: "$4.99",
+    unit: "325ml",
+    price: 4.99,
+    category: "Beverages",
+    brand: "Coca Cola",
     image: require("./assets/coca_cola.png"),
   },
   {
-    id: 6,
+    id: 18,
     name: "Pepsi Can",
-    sub: "330ml, Price",
-    price: "$4.99",
+    unit: "330ml",
+    price: 4.99,
+    category: "Beverages",
+    brand: "Ifad",
     image: require("./assets/pepsi.png"),
   },
 ];
 
 export default function BeveragesScreen({ navigation }) {
+  const { addToCart } = useCart();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SAV style={styles.container}>
       <StatusBar barStyle="dark-content" />
 
       {/* Header */}
@@ -67,11 +82,9 @@ export default function BeveragesScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="chevron-back" size={28} color="#181725" />
         </TouchableOpacity>
-
         <View style={styles.titleAbsolute}>
           <Text style={styles.title}>Beverages</Text>
         </View>
-
         <View style={styles.headerRight}>
           <View style={styles.studentBadge}>
             <Text style={styles.studentText}>Trần Minh Hiếu</Text>
@@ -88,27 +101,33 @@ export default function BeveragesScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
       >
         {BEVERAGES.map(item => (
-          <View key={item.id} style={styles.card}>
+          <TouchableOpacity
+            key={item.id}
+            style={styles.card}
+            onPress={() => navigation.navigate("ProductDetail", { item })}
+          >
             <View style={styles.cardImg}>
-              {/* 📌 ảnh sản phẩm thật */}
               <Image
                 source={item.image}
-                style={{ width: "85%", height: "85%" }}
+                style={{ width: "90%", height: "90%" }}
                 resizeMode="contain"
               />
             </View>
             <Text style={styles.cardName}>{item.name}</Text>
-            <Text style={styles.cardSub}>{item.sub}</Text>
+            <Text style={styles.cardSub}>{item.unit}, Price</Text>
             <View style={styles.cardBottom}>
-              <Text style={styles.cardPrice}>{item.price}</Text>
-              <TouchableOpacity style={styles.addBtn}>
+              <Text style={styles.cardPrice}>${item.price.toFixed(2)}</Text>
+              <TouchableOpacity
+                style={styles.addBtn}
+                onPress={() => addToCart(item)}
+              >
                 <Ionicons name="add" size={20} color="#fff" />
               </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </SAV>
   );
 }
 
@@ -122,6 +141,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderBottomWidth: 1,
     borderColor: "#F2F3F2",
+    position: "relative",
   },
   titleAbsolute: {
     position: "absolute",
@@ -129,11 +149,7 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "800",
-    color: "#181725",
-  },
+  title: { fontSize: 20, fontWeight: "800", color: "#181725" },
   headerRight: { flexDirection: "row", alignItems: "center" },
   studentBadge: {
     backgroundColor: "rgba(255,235,0,0.9)",
@@ -141,7 +157,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 14,
   },
-  studentText: { fontWeight: "700", fontSize: 10, color: "#333" },
+  studentText: { fontWeight: "700", fontSize: 12, color: "#333" },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -159,7 +175,7 @@ const styles = StyleSheet.create({
   },
   cardImg: {
     width: "100%",
-    height: 130,
+    height: 100,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
