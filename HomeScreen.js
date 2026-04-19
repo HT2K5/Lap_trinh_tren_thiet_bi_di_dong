@@ -1,4 +1,4 @@
-
+import React from "react";
 import {
   View,
   Text,
@@ -11,76 +11,90 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useCart } from "./CartContext";
 
 const EXCLUSIVE = [
   {
-    id: 1,
+    id: 7,
     name: "Organic Bananas",
-    sub: "7pcs, Priceg",
-    price: "$4.99",
+    unit: "7pcs",
+    price: 4.99,
+    category: "Fruits",
+    brand: "Fresh Farm",
     image: require("./assets/banana.png"),
   },
   {
-    id: 2,
+    id: 8,
     name: "Red Apple",
-    sub: "1kg, Priceg",
-    price: "$4.99",
+    unit: "1kg",
+    price: 4.99,
+    category: "Fruits",
+    brand: "Fresh Farm",
     image: require("./assets/apple.png"),
   },
   {
     id: 3,
     name: "",
     sub: "",
-    price: "",
-
+    price: 0,
+    image: null,
   },
+
 ];
 
 const BEST_SELLING = [
   {
-    id: 1,
+    id: 9,
     name: "Bell Pepper Red",
-    sub: "1kg, Priceg",
-    price: "$4.99",
+    unit: "1kg",
+    price: 4.99,
+    category: "Vegetables",
+    brand: "Local Farm",
     image: require("./assets/pepper.png"),
   },
   {
-    id: 2,
+    id: 10,
     name: "Ginger",
-    sub: "250g, Priceg",
-    price: "$4.99",
+    unit: "250g",
+    price: 2.99,
+    category: "Vegetables",
+    brand: "Local Farm",
     image: require("./assets/ginger.png"),
   },
   {
     id: 3,
     name: "",
     sub: "",
-    price: "",
-
+    price: 0,
+    image: null,
   },
 ];
 
 const GROCERIES = [
-  {
-    id: 1,
+    {
+    id: 11,
     name: "Beef Bone",
-    sub: "1kg, Priceg",
-    price: "$4.99",
+    unit: "1kg",
+    price: 4.99,
+    category: "Meat & Fish",
+    brand: "Organic Meat",
     image: require("./assets/beef.png"),
   },
   {
-    id: 2,
+    id: 12,
     name: "Broiler Chicken",
-    sub: "1kg, Priceg",
-    price: "$4.99",
+    unit: "1kg",
+    price: 4.99,
+    category: "Meat & Fish",
+    brand: "Organic Meat",
     image: require("./assets/chicken.png"),
   },
   {
     id: 3,
     name: "",
     sub: "",
-    price: "",
-
+    price: 0,
+    image: null,
   },
 ];
 
@@ -89,29 +103,37 @@ const CATEGORIES = [
   { name: "Rice", image: require("./assets/Rice.png"), bg: "#E8F5EE" },
 ];
 
-function ProductCard({ item, onPress }) {
+function ProductCard({ item, onPress, onAdd }) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={styles.cardImg}>
-        <Image
-          source={item.image}
-          style={{ width: "90%", height: "90%" }}
-          resizeMode="contain"
-        />
+        {item.image ? (
+          <Image
+            source={item.image}
+            style={{ width: "90%", height: "90%" }}
+            resizeMode="contain"
+          />
+        ) : null}
       </View>
       <Text style={styles.cardName}>{item.name}</Text>
       <Text style={styles.cardSub}>{item.sub}</Text>
       <View style={styles.cardBottom}>
-        <Text style={styles.cardPrice}>{item.price}</Text>
-        <TouchableOpacity style={styles.addBtn}>
-          <Ionicons name="add" size={20} color="#fff" />
-        </TouchableOpacity>
+        <Text style={styles.cardPrice}>
+          {item.price ? `$${item.price.toFixed(2)}` : ""}
+        </Text>
+        {item.name ? (
+          <TouchableOpacity style={styles.addBtn} onPress={onAdd}>
+            <Ionicons name="add" size={20} color="#fff" />
+          </TouchableOpacity>
+        ) : null}
       </View>
     </TouchableOpacity>
   );
 }
 
 export default function HomeScreen({ navigation }) {
+  const { addToCart } = useCart();
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -119,24 +141,21 @@ export default function HomeScreen({ navigation }) {
 
         {/* Header */}
         <View style={styles.header}>
-  <View style={styles.locationAbsolute}>
-    {/* Carrot icon trước */}
-    <Image
-      source={require("./assets/carrot_orange.png")}
-      style={styles.carrotIcon}
-      resizeMode="contain"
-    />
-    {/* Dhaka bên dưới */}
-    <View style={styles.locationRow}>
-      <Ionicons name="location-sharp" size={16} color="#53B175" />
-      <Text style={styles.locationText}>Dhaka, Banassre</Text>
-    </View>
-  </View>
-
-  <View style={styles.studentBadge}>
-    <Text style={styles.studentText}>Trần Minh Hiếu</Text>
-  </View>
-</View>
+          <View style={styles.locationAbsolute}>
+            <Image
+              source={require("./assets/carrot_orange.png")}
+              style={styles.carrotIcon}
+              resizeMode="contain"
+            />
+            <View style={styles.locationRow}>
+              <Ionicons name="location-sharp" size={16} color="#53B175" />
+              <Text style={styles.locationText}>Dhaka, Banassre</Text>
+            </View>
+          </View>
+          <View style={styles.studentBadge}>
+            <Text style={styles.studentText}>Trần Minh Hiếu</Text>
+          </View>
+        </View>
 
         {/* Search */}
         <View style={styles.searchRow}>
@@ -175,7 +194,18 @@ export default function HomeScreen({ navigation }) {
               <ProductCard
                 key={item.id}
                 item={item}
-                onPress={() => navigation.navigate("ProductDetail", { item })}
+                onPress={() =>
+                  item.name && navigation.navigate("ProductDetail", { item })
+                }
+                onAdd={() =>
+                  item.name && addToCart({
+                    id: item.id,
+                    name: item.name,
+                    unit: item.sub,
+                    image: item.image,
+                    price: parseFloat(item.price) || 0,
+                  })
+                }
               />
             ))}
           </ScrollView>
@@ -194,7 +224,18 @@ export default function HomeScreen({ navigation }) {
               <ProductCard
                 key={item.id}
                 item={item}
-                onPress={() => navigation.navigate("ProductDetail", { item })}
+                onPress={() =>
+                  item.name && navigation.navigate("ProductDetail", { item })
+                }
+                onAdd={() =>
+                  item.name && addToCart({
+                    id: item.id,
+                    name: item.name,
+                    unit: item.sub,
+                    image: item.image,
+                    price: parseFloat(item.price) || 0,
+                  })
+                }
               />
             ))}
           </ScrollView>
@@ -216,22 +257,22 @@ export default function HomeScreen({ navigation }) {
             style={{ marginBottom: 16 }}
           >
             {CATEGORIES.map((c, i) => (
-  <TouchableOpacity
-    key={i}
-    style={[styles.categoryChip, { backgroundColor: c.bg }]}
-    onPress={() =>
-      c.name.includes("Beverages") &&
-      navigation.navigate("Beverages")
-    }
-  >
-    <Image
-      source={c.image}
-      style={styles.categoryImg}
-      resizeMode="contain"
-    />
-    <Text style={styles.categoryName}>{c.name}</Text>
-  </TouchableOpacity>
-))}
+              <TouchableOpacity
+                key={i}
+                style={[styles.categoryChip, { backgroundColor: c.bg }]}
+                onPress={() =>
+                  c.name.includes("Beverages") &&
+                  navigation.navigate("Beverages")
+                }
+              >
+                <Image
+                  source={c.image}
+                  style={styles.categoryImg}
+                  resizeMode="contain"
+                />
+                <Text style={styles.categoryName}>{c.name}</Text>
+              </TouchableOpacity>
+            ))}
           </ScrollView>
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -239,7 +280,18 @@ export default function HomeScreen({ navigation }) {
               <ProductCard
                 key={item.id}
                 item={item}
-                onPress={() => navigation.navigate("ProductDetail", { item })}
+                onPress={() =>
+                  item.name && navigation.navigate("ProductDetail", { item })
+                }
+                onAdd={() =>
+                  item.name && addToCart({
+                    id: item.id,
+                    name: item.name,
+                    unit: item.sub,
+                    image: item.image,
+                    price: parseFloat(item.price) || 0,
+                  })
+                }
               />
             ))}
           </ScrollView>
@@ -308,10 +360,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     height: 115,
   },
-  bannerImg: {
-    width: "100%",
-    height: "100%",
-  },
+  bannerImg: { width: "100%", height: "100%" },
   section: { marginBottom: 24 },
   sectionHeader: {
     flexDirection: "row",
@@ -363,23 +412,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   categoryChip: {
-  borderRadius: 14,
-  padding: 12,
-  marginLeft: 20,
-  alignItems: "center",
-  width: 250,
-  height: 100,
-  justifyContent: "center",
-},
-categoryImg: {
-  width: 100,
-  height: 70,
-  marginBottom: 8,
-},
-categoryName: {
-  fontSize: 12,
-  fontWeight: "600",
-  color: "#181725",
-  textAlign: "center",
-},
+    borderRadius: 14,
+    padding: 12,
+    marginLeft: 20,
+    alignItems: "center",
+    width: 250,
+    height: 100,
+    justifyContent: "center",
+  },
+  categoryImg: {
+    width: 100,
+    height: 70,
+    marginBottom: 8,
+  },
+  categoryName: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#181725",
+    textAlign: "center",
+  },
 });
