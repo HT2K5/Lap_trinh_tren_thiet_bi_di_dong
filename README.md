@@ -63,10 +63,10 @@ Quét QR bằng **Expo Go** trên điện thoại.
 ![login](./screenshots/23810310175_01_login3.jpg) 
 
 **Tắt app → mở lại vẫn login**
- ![autologin](./screenshots/MSSV_02_autologin.jpg) 
- ![autologin](./screenshots/MSSV_02_autologin2.jpg) 
- ![autologin](./screenshots/MSSV_02_autologin3.jpg) 
+![autologin](./screenshots/MSSV_02_autologin.jpg) 
+![autologin](./screenshots/MSSV_02_autologin2.jpg) 
+![autologin](./screenshots/MSSV_02_autologin3.jpg) 
 
 **Logout → quay về login screen**
- ![logout](./screenshots/MSSV_03_logout.jpg)
- ![logout](./screenshots/MSSV_03_logout2.jpg)
+![logout](./screenshots/MSSV_03_logout.jpg)
+![logout](./screenshots/MSSV_03_logout2.jpg)
