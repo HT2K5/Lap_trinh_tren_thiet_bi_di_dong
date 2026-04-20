@@ -15,6 +15,7 @@ import MainTabs from "./MainTabs";
 import ProductDetailScreen from "./ProductDetailScreen";
 import BeveragesScreen from "./BeveragesScreen";
 import FilterScreen from "./FilterScreen";
+import OrdersScreen from "./OrdersScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ export default function App() {
           <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
           <Stack.Screen name="Beverages" component={BeveragesScreen} />
           <Stack.Screen name="Filter" component={FilterScreen} />
+          <Stack.Screen name="Orders" component={OrdersScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </CartProvider>
