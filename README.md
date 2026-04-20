@@ -57,11 +57,10 @@ Quét QR bằng **Expo Go** trên điện thoại.
 ### 1. 📸 Ảnh màn hình
 
 #### 🔐 Xác thực & Đăng nhập
-| Mô tả | Ảnh |
-|-------|-----|
-| Đăng nhập thành công | ![login](./screenshots/23810310175_01_login.jpg) |
-                        | ![login](./screenshots/23810310175_01_login2.jpg) |
-                        | ![login](./screenshots/23810310175_01_login3.jpg) |
+**Đăng nhập thành công**
+![login](./screenshots/23810310175_01_login.jpg) 
+![login](./screenshots/23810310175_01_login2.jpg) 
+![login](./screenshots/23810310175_01_login3.jpg) 
 
 | Tắt app → mở lại vẫn login | ![autologin](./screenshots/MSSV_02_autologin.jpg) |
                                 | ![autologin](./screenshots/MSSV_02_autologin2.jpg) |
