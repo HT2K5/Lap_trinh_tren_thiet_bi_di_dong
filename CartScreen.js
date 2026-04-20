@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,13 +7,42 @@ import {
   ScrollView,
   Image,
   StatusBar,
+  Alert,
+  RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCart } from "./CartContext";
 
-export default function CartScreen() {
-  const { cart, updateQty, removeFromCart, total } = useCart();
+export default function CartScreen({ navigation }) {
+  const { cart, updateQty, removeFromCart, total, checkout, reloadCart } = useCart();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await reloadCart();
+    setRefreshing(false);
+  };
+
+  const handleCheckout = async () => {
+    if (cart.length === 0) return;
+    try {
+      await checkout();
+      Alert.alert(
+        "Đặt hàng thành công! 🎉",
+        "Đơn hàng của bạn đã được lưu.",
+        [
+          {
+            text: "Xem đơn hàng",
+            onPress: () => navigation.navigate("Orders"),
+          },
+          { text: "OK" },
+        ]
+      );
+    } catch (e) {
+      Alert.alert("Lỗi", "Không thể đặt hàng");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -31,12 +60,34 @@ export default function CartScreen() {
 
       {/* Empty */}
       {cart.length === 0 ? (
-        <View style={styles.emptyWrap}>
+        <ScrollView
+          contentContainerStyle={styles.emptyWrap}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={["#53B175"]}
+              tintColor="#53B175"
+            />
+          }
+        >
           <Ionicons name="cart-outline" size={80} color="#E2E2E2" />
           <Text style={styles.emptyText}>Giỏ hàng trống</Text>
-        </View>
+          <Text style={styles.emptySubText}>Kéo xuống để tải lại</Text>
+        </ScrollView>
       ) : (
-        <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          style={styles.scroll}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={["#53B175"]}
+              tintColor="#53B175"
+            />
+          }
+        >
           {cart.map((item, index) => (
             <View key={item.id}>
               <View style={styles.cartItem}>
@@ -84,6 +135,7 @@ export default function CartScreen() {
         <TouchableOpacity
           style={[styles.checkoutBtn, cart.length === 0 && { opacity: 0.5 }]}
           disabled={cart.length === 0}
+          onPress={handleCheckout}
         >
           <Text style={styles.checkoutText}>Go to Checkout</Text>
           <View style={styles.checkoutBadge}>
@@ -129,9 +181,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    gap: 16,
+    gap: 12,
+    minHeight: 400,
   },
   emptyText: { fontSize: 16, color: "#7C7C7C" },
+  emptySubText: { fontSize: 13, color: "#B3B3B3" },
   cartItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -148,11 +202,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   itemSub: { fontSize: 13, color: "#7C7C7C", marginBottom: 12 },
-  qtyRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-  },
+  qtyRow: { flexDirection: "row", alignItems: "center", gap: 16 },
   qtyBtn: {
     width: 36,
     height: 36,
@@ -169,11 +219,7 @@ const styles = StyleSheet.create({
     height: 80,
   },
   itemPrice: { fontSize: 16, fontWeight: "800", color: "#181725" },
-  divider: {
-    height: 1,
-    backgroundColor: "#F2F3F2",
-    marginHorizontal: 20,
-  },
+  divider: { height: 1, backgroundColor: "#F2F3F2", marginHorizontal: 20 },
   footer: { padding: 20 },
   checkoutBtn: {
     backgroundColor: "#53B175",
