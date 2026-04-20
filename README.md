@@ -110,7 +110,7 @@ Quét QR bằng **Expo Go** trên điện thoại.
 
 ---
 ### 2. 🎥 Video demo
-![Video_Demo](./screenshots/VideoDemo.mp4)
+https://drive.google.com/file/d/18705m7lfdnBeuGindsMMAe5WVFguPNVt/view
 
 
 ### 3. 🐙 GitHub
