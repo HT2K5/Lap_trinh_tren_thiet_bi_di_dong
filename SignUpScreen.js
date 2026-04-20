@@ -10,17 +10,53 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { saveUser } from "./storage";
 
 export default function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState("Afsar Hossen Shuvo");
   const [email, setEmail] = useState("imshuvo97@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const emailOk = email.includes("@") && email.length > 4;
+
+  const handleSignUp = async () => {
+    if (!username || !email || !password) {
+      setError("Vui lòng điền đầy đủ thông tin");
+      return;
+    }
+    if (!emailOk) {
+      setError("Email không hợp lệ");
+      return;
+    }
+    try {
+      setLoading(true);
+      setError("");
+
+      // Giả lập đăng ký
+      await new Promise(r => setTimeout(r, 800));
+
+      const user = {
+        email,
+        name: username,
+        token: "mock_token_" + Date.now(),
+      };
+
+      await saveUser(user);
+      navigation.replace("Main");
+    } catch (e) {
+      setError("Đăng ký thất bại");
+      console.error("signup error:", e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -58,7 +94,10 @@ export default function SignUpScreen({ navigation }) {
           <Text style={styles.label}>Email</Text>
           <View style={styles.inputRow}>
             <TextInput
-              style={[styles.input, { flex: 1, borderWidth: 0, marginBottom: 0 }]}
+              style={[
+                styles.input,
+                { flex: 1, borderWidth: 0, marginBottom: 0 },
+              ]}
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -78,7 +117,10 @@ export default function SignUpScreen({ navigation }) {
           <Text style={styles.label}>Password</Text>
           <View style={styles.inputRow}>
             <TextInput
-              style={[styles.input, { flex: 1, borderWidth: 0, marginBottom: 0 }]}
+              style={[
+                styles.input,
+                { flex: 1, borderWidth: 0, marginBottom: 0 },
+              ]}
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!showPass}
@@ -94,7 +136,11 @@ export default function SignUpScreen({ navigation }) {
               />
             </TouchableOpacity>
           </View>
-          <View style={{ height: 28 }} />
+          <View style={{ height: 20 }} />
+
+          {error ? (
+            <Text style={styles.errorText}>{error}</Text>
+          ) : null}
 
           <Text style={styles.terms}>
             By continuing you agree to our{" "}
@@ -104,18 +150,26 @@ export default function SignUpScreen({ navigation }) {
           </Text>
 
           <TouchableOpacity
-            style={styles.signupBtn}
-            onPress={() => navigation.navigate("Login")}
+            style={[styles.signupBtn, loading && { opacity: 0.7 }]}
+            onPress={handleSignUp}
+            disabled={loading}
+            activeOpacity={1}
           >
-            <Text style={styles.signupText}>Sign Up</Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.signupText}>Sign Up</Text>
+            )}
           </TouchableOpacity>
 
           <View style={styles.footer}>
-            <Text style={{ color: "black", fontSize: 14, fontWeight: 600 }}>
+            <Text style={{ color: "black", fontSize: 14, fontWeight: "600" }}>
               Already have an account?{" "}
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-              <Text style={{ color: "#53B175", fontWeight: "700", fontSize: 14 }}>
+              <Text
+                style={{ color: "#53B175", fontWeight: "700", fontSize: 14 }}
+              >
                 Signin
               </Text>
             </TouchableOpacity>
@@ -164,12 +218,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#FAFAFA",
     paddingRight: 4,
   },
+  errorText: {
+    color: "#F4613A",
+    fontSize: 13,
+    marginBottom: 12,
+  },
   terms: {
     fontSize: 13,
     color: "#7C7C7C",
     lineHeight: 20,
     marginBottom: 24,
-    marginLeft: 10
+    marginLeft: 10,
   },
   link: { color: "#53B175", fontWeight: "700" },
   signupBtn: {
