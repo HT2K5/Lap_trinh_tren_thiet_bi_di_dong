@@ -1,28 +1,38 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, Image, Dimensions } from "react-native";
-
-const { width, height } = Dimensions.get("window");
+import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
+import { getUser } from "./storage";
 
 const STUDENT_NAME = "Trần Minh Hiếu";
 const STUDENT_ID = "23810310175";
 
 export default function SplashScreen({ navigation }) {
   useEffect(() => {
-    const timer = setTimeout(() => navigation.replace("Onboarding"), 600);
-    return () => clearTimeout(timer);
+    const check = async () => {
+      try {
+        const user = await getUser();
+        setTimeout(() => {
+          if (user) {
+            navigation.replace("Main");
+          } else {
+            navigation.replace("Onboarding");
+          }
+        }, 2000);
+      } catch (e) {
+        setTimeout(() => navigation.replace("Onboarding"), 2000);
+      }
+    };
+    check();
   }, []);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#53B175" />
 
-      {/* Student badge */}
       <View style={styles.studentBadge}>
         <Text style={styles.studentName}>{STUDENT_NAME}</Text>
         <Text style={styles.studentId}>{STUDENT_ID}</Text>
       </View>
 
-      {/* Logo nectar */}
       <View style={styles.logoWrap}>
         <Image
           source={require("./assets/nectar_logo.png")}
@@ -53,5 +63,5 @@ const styles = StyleSheet.create({
   studentName: { color: "#fff", fontWeight: "700", fontSize: 14 },
   studentId: { color: "rgba(255,255,255,0.85)", fontSize: 12, marginTop: 2 },
   logoWrap: { alignItems: "center" },
-  logoImg: { width: 300, height: 100 },
+  logoImg: { width: 200, height: 60 },
 });

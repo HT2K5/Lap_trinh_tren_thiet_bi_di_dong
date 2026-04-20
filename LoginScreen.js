@@ -10,14 +10,46 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { saveUser } from "./storage";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("imshuvo97@gmail.com");
   const [password, setPassword] = useState("12345678");
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Vui lòng nhập email và mật khẩu");
+      return;
+    }
+    try {
+      setLoading(true);
+      setError("");
+
+      // Giả lập login
+      await new Promise(r => setTimeout(r, 800));
+
+      const user = {
+        email,
+        name: "Trần Minh Hiếu",
+        token: "mock_token_" + Date.now(),
+      };
+
+      await saveUser(user);
+      navigation.replace("Main"); // ← replace để không back về Login
+    } catch (e) {
+      setError("Đăng nhập thất bại");
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -57,7 +89,10 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.label}>Password</Text>
           <View style={styles.passRow}>
             <TextInput
-              style={[styles.input, { flex: 1, borderWidth: 0, marginBottom: 0 }]}
+              style={[
+                styles.input,
+                { flex: 1, borderWidth: 0, marginBottom: 0 },
+              ]}
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!showPass}
@@ -74,15 +109,25 @@ export default function LoginScreen({ navigation }) {
             </TouchableOpacity>
           </View>
 
+          {error ? (
+            <Text style={styles.errorText}>{error}</Text>
+          ) : null}
+
           <TouchableOpacity style={styles.forgotBtn}>
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.loginBtn}
-            onPress={() => navigation.navigate("Onboarding")}
+            style={[styles.loginBtn, loading && { opacity: 0.7 }]}
+            onPress={handleLogin}
+            disabled={loading}
+            activeOpacity={1}
           >
-            <Text style={styles.loginText}>Log In</Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.loginText}>Log In</Text>
+            )}
           </TouchableOpacity>
 
           <View style={styles.footer}>
@@ -116,7 +161,12 @@ const styles = StyleSheet.create({
   studentText: { fontWeight: "700", fontSize: 13, color: "#333" },
   logoRow: { alignItems: "center", marginVertical: 28 },
   logoImg: { width: 60, height: 60 },
-  title: { fontSize: 28, fontWeight: "500", color: "#181725", marginBottom: 20 },
+  title: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: "#181725",
+    marginBottom: 6,
+  },
   subtitle: { fontSize: 14, color: "#7C7C7C", marginBottom: 32 },
   label: { fontSize: 14, color: "#7C7C7C", fontWeight: "600", marginBottom: 8 },
   input: {
@@ -138,10 +188,16 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     backgroundColor: "#FAFAFA",
     paddingRight: 4,
-    marginBottom: 12,
+    marginBottom: 8,
   },
-  forgotBtn: { alignSelf: "flex-end", marginBottom: 28 },
-  forgotText: { color: "black", fontWeight: "400", fontSize: 14 },
+  errorText: {
+    color: "#F4613A",
+    fontSize: 13,
+    marginTop: 4,
+    marginBottom: 8,
+  },
+  forgotBtn: { alignSelf: "flex-end", marginBottom: 28, marginTop: 8 },
+  forgotText: { color: "#53B175", fontWeight: "600", fontSize: 14 },
   loginBtn: {
     backgroundColor: "#53B175",
     borderRadius: 18,
