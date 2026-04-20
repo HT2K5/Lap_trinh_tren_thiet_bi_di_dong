@@ -4,11 +4,12 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  SafeAreaView,
   StatusBar,
   ScrollView,
   Image,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ZONES = ["Banasree", "Gulshan", "Dhanmondi", "Mirpur", "Uttara"];
 const AREAS = ["Block A", "Block B", "Block C", "Block D", "Road 1", "Road 2"];
@@ -38,7 +39,7 @@ export default function SelectLocationScreen({ navigation }) {
           <Text style={styles.backIcon}>‹</Text>
         </TouchableOpacity>
 
-        {/* Map illustration - ảnh thật */}
+        {/* Map illustration */}
         <View style={styles.mapWrap}>
           <Image
             source={require("./assets/map_illustration.png")}
@@ -67,7 +68,7 @@ export default function SelectLocationScreen({ navigation }) {
         </TouchableOpacity>
         {openZone && (
           <View style={styles.list}>
-            {ZONES.map((z) => (
+            {ZONES.map(z => (
               <TouchableOpacity
                 key={z}
                 style={styles.listItem}
@@ -105,7 +106,7 @@ export default function SelectLocationScreen({ navigation }) {
         </TouchableOpacity>
         {openArea && (
           <View style={styles.list}>
-            {AREAS.map((a) => (
+            {AREAS.map(a => (
               <TouchableOpacity
                 key={a}
                 style={styles.listItem}
@@ -127,9 +128,10 @@ export default function SelectLocationScreen({ navigation }) {
           </View>
         )}
 
+        {/* Submit → Login */}
         <TouchableOpacity
           style={styles.submitBtn}
-          onPress={() => navigation.navigate("Main")}
+          onPress={() => navigation.navigate("Login")}
         >
           <Text style={styles.submitText}>Submit</Text>
         </TouchableOpacity>
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
   mapImg: { width: 180, height: 180 },
   title: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: "800",
     color: "#181725",
     textAlign: "center",
     marginBottom: 12,
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
     color: "#7C7C7C",
     textAlign: "center",
     lineHeight: 22,
-    marginBottom: 70,
+    marginBottom: 32,
   },
   label: { fontSize: 14, color: "#7C7C7C", fontWeight: "600", marginBottom: 8 },
   dropdown: {
