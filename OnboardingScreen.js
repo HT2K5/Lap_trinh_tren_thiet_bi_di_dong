@@ -9,6 +9,7 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
+import images from './Images';
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,30 +34,31 @@ export default function OnboardingScreen({ navigation }) {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
       <ImageBackground
-        source={require('./assets/Image Onboarding.png')}
+        source={images.onboarding}
         style={styles.bg}
         resizeMode="cover"
       >
-        <View style={styles.overlay} />
+        <View style={styles.overlayTop} />
+        <View style={styles.overlayBottom} />
 
-        <View style={styles.content}>
+        <View style={styles.bottom}>
           <Animated.Text style={[styles.title, { opacity: titleOpacity, transform: [{ translateY: titleY }] }]}>
             Fall in Love with{'\n'}Coffee in Blissful{'\n'}Delight!
           </Animated.Text>
           <Animated.Text style={[styles.subtitle, { opacity: subOpacity }]}>
             Welcome to our cozy coffee corner, where{'\n'}every cup is a delightful for you.
           </Animated.Text>
-        </View>
 
-        <Animated.View style={[styles.btnWrap, { opacity: btnOpacity }]}>
-          <TouchableOpacity
-            style={styles.btn}
-            activeOpacity={0.85}
-            onPress={() => navigation.replace('MainTabs')}
-          >
-            <Text style={styles.btnText}>Get Started</Text>
-          </TouchableOpacity>
-        </Animated.View>
+          <Animated.View style={[styles.btnWrap, { opacity: btnOpacity }]}>
+            <TouchableOpacity
+              style={styles.btn}
+              activeOpacity={0.85}
+              onPress={() => navigation.replace('MainTabs')}
+            >
+              <Text style={styles.btnText}>Get Started</Text>
+            </TouchableOpacity>
+          </Animated.View>
+        </View>
       </ImageBackground>
     </View>
   );
@@ -64,21 +66,29 @@ export default function OnboardingScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  bg: { flex: 1, width, height, },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.25)',
+  bg: { flex: 1, width, height },
+  overlayTop: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0,
+    height: '50%',
+    backgroundColor: 'rgba(0,0,0,0.05)',
   },
-  content: {
-    flex: 1,
-    justifyContent: 'flex-end',
+  overlayBottom: {
+    position: 'absolute',
+    bottom: 0, left: 0, right: 0,
+    height: '55%',
+    backgroundColor: 'rgba(0,0,0,0.55)',
+  },
+  bottom: {
+    position: 'absolute',
+    bottom: 0, left: 0, right: 0,
     paddingHorizontal: 30,
-    paddingBottom: 32,
+    paddingBottom: 52,
     alignItems: 'center',
   },
   title: {
     fontSize: 32,
-    fontWeight: '700',
+    fontWeight: '800',
     color: '#FFFFFF',
     textAlign: 'center',
     lineHeight: 42,
@@ -86,20 +96,17 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.72)',
+    color: 'rgba(255,255,255,0.80)',
     textAlign: 'center',
     lineHeight: 22,
+    marginBottom: 32,
   },
-  btnWrap: {
-    paddingHorizontal: 30,
-    paddingBottom: 52,
-  },
+  btnWrap: { width: '100%' },
   btn: {
     backgroundColor: '#C67C4E',
     borderRadius: 16,
     paddingVertical: 17,
     alignItems: 'center',
-    width: width - 60,
     shadowColor: '#C67C4E',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.45,

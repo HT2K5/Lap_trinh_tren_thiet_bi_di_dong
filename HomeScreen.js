@@ -11,7 +11,8 @@ import {
   Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import data from './data';
+import data from './data.json';
+import images from './Images';
 
 const { width } = Dimensions.get('window');
 const CARD_W = (width - 48) / 2;
@@ -19,7 +20,7 @@ const CARD_W = (width - 48) / 2;
 function CoffeeCard({ item, onPress }) {
   return (
     <TouchableOpacity style={styles.card} activeOpacity={0.85} onPress={() => onPress(item)}>
-      <Image source={item.image} style={styles.cardImg} />
+      <Image source={images.coffees[item.id]} style={styles.cardImg} />
       <View style={styles.ratingBadge}>
         <Text style={styles.ratingStar}>★</Text>
         <Text style={styles.ratingNum}> {item.rating}</Text>
@@ -82,9 +83,9 @@ export default function HomeScreen({ navigation }) {
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 24 }}>
 
-        {/* Promo Banner — chi anh, khong chu */}
+        {/* Promo Banner */}
         <View style={styles.banner}>
-          <Image source={data.promo.image} style={styles.bannerImg} />
+          <Image source={images.promo} style={styles.bannerImg} />
         </View>
 
         {/* Categories */}

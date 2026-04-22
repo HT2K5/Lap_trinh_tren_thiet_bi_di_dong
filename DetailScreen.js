@@ -10,6 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import images from './Images';
 
 const { width } = Dimensions.get('window');
 const PRICE_OFFSET = { S: -0.5, M: 0, L: 0.5 };
@@ -44,7 +45,7 @@ export default function DetailScreen({ route, navigation }) {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
 
         {/* Hero image */}
-        <Image source={coffee.image} style={styles.hero} />
+        <Image source={images.coffees[coffee.id]} style={styles.hero} />
 
         {/* Info card */}
         <View style={styles.card}>
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
 
   hero: {
     width: width - 32, height: 210,
-    borderRadius: 20,
+    borderRadius: 20, resizeMode: 'cover',
     marginHorizontal: 16, marginBottom: -24, zIndex: 1,
   },
 
